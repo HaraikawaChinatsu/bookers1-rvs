@@ -1,0 +1,54 @@
+<h1>Books</h1>
+<% @books.each do |book| %>
+  <p>Title</p>
+  <span>
+  <%= book.title %>
+  </span>
+
+  <p>Body</p>
+  <span>
+  <%= book.body %>
+  </span>
+
+  <%= link_to "show", book_params_path(book.id) %>
+  <%= link_to "edit", edit_book_path(book.id) %>
+  <%= link_to "destroy", destroy_book_path(book.id), method: :delete, "data-confirm" => "Are you sure?？" %>
+
+
+<% end %>
+
+<h1>New Book</h1>
+<!-- form_with部分 -->
+<%= form_with model: @book, url:'/books', local:true do |f| %>
+  <h4>title</h4>
+  <%= f.text_field :title %>
+  <h4>body</h4>
+  <%= f.text_area :body %>
+  <%= f.submit 'Create Book' %>
+
+<% end %>
+
+<% if flash[:notice] %>
+      <div class="flash">
+        <%= flash[:notice] %>
+        <!--成功した時-->
+        <body>
+          <p id="notice">Book was successfully created.</p>
+        　<p>
+        　  <strog>Title:</strong>
+          </p>
+          <p>
+            <strong>Body:</strong>
+          </p>
+        </body>
+      </div>
+<!--失敗した時-->
+　　<%= form_for(@book, url:book_params_path) do |f| %>
+　　<% if @book.errors.any? %>
+　　<%= @book.errors.count %>エラー
+　　<% @book.errors.full_messages.each do |message| %>
+　　<%= message %>
+　　<% end %>
+　　<% end %>
+　　<% end %>
+<% end %>

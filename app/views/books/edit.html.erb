@@ -1,0 +1,21 @@
+<h1>Editing Book</h1>
+
+<% if @book.errors.any? %>
+<!--@bookの中にエラーある？-->
+  <%= @book.errors.count %>errors
+  <% @book.errors.full_messages.each do |message| %>
+<!--エラーに対する表示は決まっている-->
+  <%= message %>
+  <% end %>
+<% end %>
+
+<%= form_with model:@book, url:"/books/#{@book.id}", local:true do |f| %>
+  <h4>Title</h4>
+  <%= f.text_field :title %>
+  <h4>Body</h4>
+  <%= f.text_area :body %>
+  <%= f.submit 'Update Book' %>
+<% end %>
+
+<%= link_to "Show", book_path(@book.id) %>
+<%= link_to "Back", books_path %>
